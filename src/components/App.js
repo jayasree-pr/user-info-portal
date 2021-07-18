@@ -4,6 +4,7 @@ import Header from './Header';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import ContactList from './ContactList';
 import AddContact from './AddContact';
+import ContactDetail from './ContactDetail';
 import {uuid} from 'uuidv4';
 
 function App() {
@@ -39,6 +40,7 @@ useEffect(()=>{
       <Switch>
         <Route exact path='/' render={(props)=>(<ContactList {...props} contacts = {contacts} getContactId={removeContact}/>)} />
         <Route path='/add' render = {(props)=>(<AddContact {...props} AddContactHandler={AddContactHandler} />)}/>
+        <Route path='/contact/:id' component={ContactDetail}/>      
       </Switch>
       </Router>
     </div>
