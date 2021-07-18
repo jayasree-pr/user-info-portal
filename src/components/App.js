@@ -1,7 +1,7 @@
 import './App.css';
 import React,{useEffect, useState} from 'react';
 import Header from './Header';
-import ContactCard from './ContactCard';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import ContactList from './ContactList';
 import AddContact from './AddContact';
 import {uuid} from 'uuidv4';
@@ -17,10 +17,10 @@ setContacts([...contacts,{id:uuid(), ...contact}]);
 
 const removeContact = (id) => {
   const newContactList = contacts.filter((contact) =>{
-  return  contacts.id !== id;
-  })
+  return  contact.id !== id;
+  });
   setContacts(newContactList);
-}
+};
 
 useEffect(()=>{
   const retrieveContact = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
@@ -35,8 +35,12 @@ useEffect(()=>{
   return (
     <div className = "ui container">
     <Header/>
-    <AddContact AddContactHandler={AddContactHandler}/>
-    <ContactList contacts = {contacts} getContactId={removeContact}/>
+    <Router>
+      <Switch>
+        <Route exact path='/' render={(props)=>(<ContactList {...props} contacts = {contacts} getContactId={removeContact}/>)} />
+        <Route path='/add' render = {(props)=>(<AddContact {...props} AddContactHandler={AddContactHandler} />)}/>
+      </Switch>
+      </Router>
     </div>
   );
 }
